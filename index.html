@@ -115,8 +115,16 @@
         const secondElem = document.getElementById("second");
 
         interval = setInterval(() => {
-          if (tickSound.paused) {
-            tickSound.play();
+          // Chỉ phát âm thanh ở 10 giây cuối hoặc khi bắt đầu (trừ thời điểm giữa)
+          if (
+            countdownTime === parseInt(minutesInput) * 60 ||
+            countdownTime <= 10
+          ) {
+            if (tickSound.paused) {
+              tickSound.play();
+            }
+          } else {
+            tickSound.pause();
           }
 
           // Tính toán giờ, phút, giây còn lại
