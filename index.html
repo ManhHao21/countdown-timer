@@ -69,7 +69,7 @@
   </head>
   <body>
     <div class="container">
-      <h2><span>Hãy Cùng Nhau Đếm Ngược Đến Năm</span> 2021</h2>
+      <h2><span>Hãy Cùng Nhau Đếm Ngược Đến Năm</span> 2024</h2>
 
       <label for="minutesInput">Nhập số phút:</label>
       <input type="number" id="minutesInput" placeholder="Nhập phút" min="1" />
@@ -94,6 +94,8 @@
       const startButton = document.getElementById("startButton");
       const stopButton = document.getElementById("stopButton");
       const resumeButton = document.getElementById("resumeButton");
+      const tickSound = document.getElementById("tickSound");
+      const endSound = document.getElementById("endSound");
 
       startButton.addEventListener("click", function () {
         const minutesInput = document.getElementById("minutesInput").value;
@@ -106,9 +108,6 @@
         stopButton.disabled = false;
         resumeButton.disabled = true;
 
-        const tickSound = document.getElementById("tickSound");
-        const endSound = document.getElementById("endSound");
-
         countdownTime = parseInt(minutesInput) * 60; // Convert minutes to seconds
 
         const hourElem = document.getElementById("hour");
@@ -116,8 +115,9 @@
         const secondElem = document.getElementById("second");
 
         interval = setInterval(() => {
-          // Phát âm thanh tích tắc
-          tickSound.play();
+          if (tickSound.paused) {
+            tickSound.play();
+          }
 
           // Tính toán giờ, phút, giây còn lại
           const hours = Math.floor(countdownTime / 3600);
@@ -132,6 +132,8 @@
           // Dừng khi hết thời gian
           if (countdownTime <= 0) {
             clearInterval(interval);
+            tickSound.pause();
+            tickSound.currentTime = 0;
             endSound.play(); // Phát âm thanh khi hết giờ
             alert("Đếm ngược kết thúc!");
             startButton.disabled = false;
@@ -148,6 +150,8 @@
         clearInterval(interval);
         stopButton.disabled = true;
         resumeButton.disabled = false;
+        tickSound.pause();
+        tickSound.currentTime = 0; // Reset âm thanh tích tắc
         alert("Đếm ngược đã được tạm dừng!");
       });
 
@@ -155,16 +159,14 @@
         stopButton.disabled = false;
         resumeButton.disabled = true;
 
-        const tickSound = document.getElementById("tickSound");
-        const endSound = document.getElementById("endSound");
-
         const hourElem = document.getElementById("hour");
         const minuteElem = document.getElementById("minute");
         const secondElem = document.getElementById("second");
 
         interval = setInterval(() => {
-          // Phát âm thanh tích tắc
-          tickSound.play();
+          if (tickSound.paused) {
+            tickSound.play();
+          }
 
           // Tính toán giờ, phút, giây còn lại
           const hours = Math.floor(countdownTime / 3600);
@@ -179,6 +181,8 @@
           // Dừng khi hết thời gian
           if (countdownTime <= 0) {
             clearInterval(interval);
+            tickSound.pause();
+            tickSound.currentTime = 0;
             endSound.play(); // Phát âm thanh khi hết giờ
             alert("Đếm ngược kết thúc!");
             startButton.disabled = false;
